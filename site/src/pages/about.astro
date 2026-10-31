@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+---
+<Base breadcrumbs={[{ name: 'About', path: '/about' }]} title="About Kava Construction | Morganton, NC Contractor" description="Kava Construction LLC, formerly Kava Home Improvements, is a licensed and insured Morganton, NC contractor with 10+ years of experience.">
+  <PageHead title="About Kava Construction" lead="A licensed and insured Morganton crew that does the work itself." />
+  <section class="wrap section md:grid md:grid-cols-[6fr_5fr] md:gap-14 md:items-center">
+    <div class="space-y-4 max-w-[60ch] text-[1.075rem]">
+      <p>Kava Construction LLC is a licensed and insured home contractor based at {site.street} in Morganton, NC. We have more than 10 years of experience, and you may know us by our former name, {site.formerName}.</p>
+      <p>Our crew does the work itself, from tear-off and framing to tile and trim. The photos on this site show it: our people on the roof, under the deck and in the walls.</p>
+      <p>We work Monday to Saturday, 8 AM to 5 PM. Se habla español.</p>
+      <p>See <a href="/gallery" class="underline decoration-tape decoration-2 underline-offset-4 font-semibold">photos of our work</a>, or read about <a href="/services" class="underline decoration-tape decoration-2 underline-offset-4 font-semibold">everything we do</a>.</p>
+      <div class="flex flex-col md:flex-row gap-2.5 pt-2">
+        <a href="/book" data-wizard="" data-source="about" class="btn btn-primary btn-md-auto md:!px-8">Get My Free Estimate</a>
+        <a href={site.reviewUrl} rel="noopener" class="btn btn-outline btn-md-auto md:!px-6">Leave Us a Google Review</a>
+      </div>
+    </div>
+    <div class="relative mt-10 md:mt-0 max-w-[26rem] md:max-w-none">
+      <Photo file="porches-11" alt="Two Kava crew members cutting lumber at a framing job" widths={[480, 800, 1200]} sizes="(min-width: 768px) 40vw, 90vw" class="relative z-10 w-full aspect-[4/5] object-cover rounded-md" />
+      <div class="absolute inset-0 translate-x-3 translate-y-3 md:translate-x-4 md:translate-y-4 bg-tape rounded-md" aria-hidden="true"></div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>

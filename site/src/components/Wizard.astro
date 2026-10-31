@@ -1,0 +1,70 @@
+---
+import { wizardServices } from '../data/wizard';
+import { site } from '../data/site';
+---
+<dialog id="wizard" class="sheet" aria-labelledby="wizard-title">
+  <div class="sheet-head px-[1.1rem] pt-4 pb-3">
+    <div class="sheet-title flex items-center justify-between mb-2.5">
+      <h2 id="wizard-title" class="!text-[1.2rem] whitespace-nowrap">Get your free estimate</h2>
+      <button type="button" data-close aria-label="Close" class="grid place-items-center w-11 h-11 rounded-[10px] bg-mist">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="tape" aria-hidden="true"><div class="tape-fill" data-tape-fill></div></div>
+    <p class="text-sm font-semibold text-slate mt-1.5" data-step-label aria-live="polite">Step 1 of 3</p>
+  </div>
+
+  <form novalidate class="contents">
+    <div class="sheet-body">
+      <section data-step="1">
+        <p class="font-bold text-lg">What do you need done?</p>
+        <p class="text-slate text-[0.95rem] mb-3">Tap all that apply.</p>
+        <p class="field-error mb-3" data-pick-error role="alert" hidden>Pick at least one project to continue.</p>
+        <div class="grid grid-cols-2 gap-2.5">
+          {wizardServices.map((s) => (
+            <button type="button" class="tap-tile" data-service-tile={s.id} aria-pressed="false">{s.label}</button>
+          ))}
+        </div>
+      </section>
+
+      <section data-step="2" hidden>
+        <div data-details></div>
+        <p class="font-bold mb-2">When do you want to start?</p>
+        <div class="flex flex-wrap gap-2 mb-5">
+          {['As soon as possible', '1 to 3 months', 'Just planning'].map((t) => (
+            <button type="button" class="chip" data-single="timing" aria-pressed="false">{t}</button>
+          ))}
+        </div>
+        <p class="font-bold mb-2">Do you own the home?</p>
+        <div class="flex flex-wrap gap-2">
+          {['I own it', 'I rent it'].map((t) => (
+            <button type="button" class="chip" data-single="owner" aria-pressed="false">{t}</button>
+          ))}
+        </div>
+      </section>
+
+      <section data-step="3" hidden class="pb-2">
+        <p class="font-bold text-lg">Last step: book your estimate</p>
+        <p class="text-slate text-[0.95rem] mb-3">Your request reaches us when you pick a time below or contact us.</p>
+        <div class="grid grid-cols-[1.4fr_1fr] gap-2.5 mb-4">
+          <label class="field">First name
+            <input name="name" autocomplete="given-name" enterkeyhint="next" />
+          </label>
+          <label class="field">ZIP code
+            <input name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" enterkeyhint="done" />
+          </label>
+        </div>
+        <div class="space-y-2.5">
+          <a data-calendly href={site.calendly} target="_blank" rel="noopener" class="btn btn-primary">Pick my estimate time</a>
+          <a data-sms href={`sms:${site.smsNumber}`} class="btn btn-dark">Text my request to Kava</a>
+          <a href={site.phoneHref} class="btn btn-outline">Call {site.phone}</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="sheet-foot" data-foot>
+      <button type="button" data-back class="btn btn-outline !w-auto" hidden>Back</button>
+      <button type="button" data-next class="btn btn-primary flex-1">Continue</button>
+    </div>
+  </form>
+</dialog>

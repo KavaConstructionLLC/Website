@@ -1,0 +1,160 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import BottomBar from '../components/BottomBar.astro';
+import Wizard from '../components/Wizard.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: object[];
+  service?: string;
+  noindex?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
+  intro?: boolean;
+}
+
+const { title, description, schema = [], service = '', noindex = false, breadcrumbs = [], intro = false } = Astro.props;
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
+const canonical = path ? `${site.url}${path}` : `${site.url}/`;
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  '@id': `${site.url}/#business`,
+  name: site.name,
+  alternateName: site.formerName,
+  url: site.url,
+  description: site.description,
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.street}, ${site.city}, ${site.state} ${site.zip}`)}`,
+  logo: `${site.url}/logo.png`,
+  image: `${site.url}/og.jpg`,
+  telephone: '+1-828-334-2101',
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.street,
+    addressLocality: site.city,
+    addressRegion: site.state,
+    postalCode: site.zip,
+    addressCountry: 'US',
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    opens: '08:00',
+    closes: '17:00',
+  },
+  areaServed: [
+    ...site.areas.map((name) => ({ '@type': 'City', name: `${name}, NC` })),
+    {
+      '@type': 'GeoCircle',
+      geoMidpoint: { '@type': 'GeoCoordinates', latitude: 35.7457, longitude: -81.6848 },
+      geoRadius: `${Math.round(site.radiusMiles * 1609.34)}`,
+    },
+  ],
+  knowsLanguage: ['en', 'es'],
+  sameAs: Object.values(site.social),
+};
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  publisher: { '@id': `${site.url}/#business` },
+  inLanguage: 'en-US',
+};
+const webPage = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonical}#webpage`,
+  url: canonical,
+  name: title,
+  description,
+  isPartOf: { '@id': `${site.url}/#website` },
+  about: { '@id': `${site.url}/#business` },
+  dateModified: site.lastUpdated,
+  inLanguage: 'en-US',
+};
+const crumbs = breadcrumbs.length
+  ? [{
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ name: 'Home', path: '' }, ...breadcrumbs].map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: c.name,
+        item: `${site.url}${c.path}` || site.url,
+      })),
+    }]
+  : [];
+const jsonLd = [business, website, webPage, ...crumbs, ...schema];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
+    <meta name="theme-color" content="#4a5240" />
+    {intro
+      ? <script is:inline>try{if(sessionStorage.getItem('kv-intro'))document.documentElement.classList.add('no-intro');else sessionStorage.setItem('kv-intro','1')}catch(e){document.documentElement.classList.add('no-intro')}</script>
+      : <script is:inline>document.documentElement.classList.add('no-intro')</script>}
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://calendly.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site.url}/og.jpg`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {import.meta.env.PROD && (
+      <>
+        <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+        <script is:inline defer src="/_vercel/insights/script.js"></script>
+      </>
+    )}
+  </head>
+  <body>
+    {intro && (
+      <div class="intro" aria-hidden="true">
+        <div class="intro-word">{'KAVA'.split('').map((l, n) => <span style={`--n:${n}`}>{l}</span>)}</div>
+        <div class="intro-tape ruler"></div>
+        <p class="intro-tag">Construction · Morganton, NC</p>
+      </div>
+    )}
+    <Header />
+    <main id="main">
+      {breadcrumbs.length > 0 && (
+        <nav aria-label="Breadcrumb" class="wrap pt-2.5 text-sm text-slate">
+          <ol class="flex flex-wrap gap-x-1.5">
+            <li><a href="/" class="underline">Home</a> /</li>
+            {breadcrumbs.map((c, i) => (
+              <li>{i < breadcrumbs.length - 1 ? <><a href={c.path} class="underline">{c.name}</a> /</> : <span aria-current="page">{c.name}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      <slot />
+    </main>
+    <Footer />
+    <BottomBar service={service} />
+    <Wizard />
+    <script>
+      import '../scripts/wizard';
+    </script>
+  </body>
+</html>

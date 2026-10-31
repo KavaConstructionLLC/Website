@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { services } from '../data/services';
+const groups = services.filter((s) => s.id !== 'remodel');
+---
+<Base breadcrumbs={[{ name: 'Our Work', path: '/gallery' }]} title="Our Work: Project Photos | Kava Construction, Morganton NC" description="Photos of real Kava Construction jobs: kitchens, bathrooms, roofs, decks, porches, sheds, flooring and concrete in and around Morganton, NC.">
+  <PageHead title="Our work" lead="Finished rooms and jobs in progress, all by our crew.">
+    <nav class="flex gap-2 overflow-x-auto mt-5 pb-1 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap" aria-label="Jump to a project type">
+      {groups.map((s) => <a href={`#${s.id}`} class="chip-pick shrink-0">{s.name}</a>)}
+    </nav>
+  </PageHead>
+  {groups.map((s, gi) => (
+    <section id={s.id} class:list={['scroll-mt-20', gi % 2 ? 'bg-mist' : '']}>
+      <div class="wrap py-9 md:py-14">
+        <div class="flex flex-wrap items-end justify-between gap-3 mb-5">
+          <h2>{s.name}</h2>
+          <a href={`/services/${s.id}`} data-wizard={s.id} data-source="gallery" class="btn btn-primary btn-md-auto md:!px-6 !min-h-[48px] !text-base">Get a Free {s.name.split(' ')[0].replace(',', '')} Estimate</a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-3">
+          {s.photos.map((p) => (
+            <div class="overflow-hidden rounded-md bg-spruce">
+              <Photo file={p.file} alt={p.alt} class="reveal-img w-full aspect-[4/5] object-cover hover:scale-[1.03] transition-transform duration-500" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+  <CtaBand />
+</Base>

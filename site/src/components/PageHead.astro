@@ -1,0 +1,11 @@
+---
+const { title, lead = '' } = Astro.props as { title: string; lead?: string };
+---
+<section class="bg-spruce-deep text-white">
+  <div class="wrap pt-8 pb-9 md:pt-14 md:pb-12">
+    <h1 class="rise max-w-[20ch]" style="--i:0">{title}</h1>
+    {lead && <p class="rise mt-3 md:mt-4 text-white/85 max-w-2xl text-[1.075rem]" style="--i:1">{lead}</p>}
+    <div class="rise" style="--i:2"><slot /></div>
+  </div>
+  <div class="ruler ruler-thin" aria-hidden="true"></div>
+</section>

@@ -1,0 +1,44 @@
+---
+import { site } from '../data/site';
+import { services } from '../data/services';
+---
+<footer class="bg-spruce-deep text-white">
+  <div class="ruler ruler-thin" aria-hidden="true"></div>
+  <div class="wrap py-12 grid gap-8 md:grid-cols-3">
+    <div>
+      <img src="/logo.webp" alt="Kava Construction logo" width="110" height="90" loading="lazy" class="h-[90px] w-auto mb-3" />
+      <p class="font-bold">{site.name}</p>
+      <p class="text-white/70 text-[0.95rem]">Formerly {site.formerName}</p>
+      <address class="not-italic mt-2">
+        {site.street}<br />{site.city}, {site.state} {site.zip}<br />
+        <a href={site.phoneHref} class="font-bold">{site.phone}</a><br />
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </address>
+      <p class="mt-2 text-white/80">{site.hours}</p>
+    </div>
+    <div>
+      <p class="font-bold mb-2">Services</p>
+      <ul class="space-y-1.5">
+        {services.map((s) => <li><a href={`/services/${s.id}`} class="no-underline hover:text-tape-soft">{s.name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="font-bold mb-2">Company</p>
+      <ul class="space-y-1.5">
+        <li><a href="/gallery" class="no-underline hover:text-tape-soft">Our Work</a></li>
+        <li><a href="/about" class="no-underline hover:text-tape-soft">About</a></li>
+        <li><a href="/service-areas" class="no-underline hover:text-tape-soft">Service Areas</a></li>
+        <li><a href="/book" class="no-underline hover:text-tape-soft">Book an Estimate</a></li>
+        <li><a href="/privacy" class="no-underline hover:text-tape-soft">Privacy</a></li>
+      </ul>
+      <p class="font-bold mt-5 mb-2">Follow us</p>
+      <ul class="flex flex-wrap gap-x-4 gap-y-1">
+        <li><a href={site.social.facebook} rel="noopener" class="no-underline hover:text-tape-soft">Facebook</a></li>
+        <li><a href={site.social.tiktok} rel="noopener" class="no-underline hover:text-tape-soft">TikTok</a></li>
+        <li><a href={site.social.pinterest} rel="noopener" class="no-underline hover:text-tape-soft">Pinterest</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="wrap pb-3 text-white/75 text-sm">Serving Morganton and towns within {site.radiusMiles} miles. <a href="/service-areas" class="underline">See the list</a>.</p>
+  <p class="wrap pb-6 text-white/70 text-sm">© {new Date().getFullYear()} {site.name}. Licensed and insured.</p>
+</footer>

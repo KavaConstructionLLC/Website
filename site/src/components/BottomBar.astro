@@ -1,0 +1,8 @@
+---
+import { site } from '../data/site';
+const { service = '' } = Astro.props;
+---
+<nav class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-spruce-deep border-t border-white/15 p-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] flex gap-2.5" aria-label="Quick actions">
+  <a href="/book" data-wizard={service} data-source="bottom-bar" class="btn btn-primary flex-[1.6] whitespace-nowrap !px-2">Free Estimate</a>
+  <a href={site.phoneHref} class="btn btn-outline-light flex-1 !px-2">Call</a>
+</nav>

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+---
+<Base breadcrumbs={[{ name: 'Book an Estimate', path: '/book' }]} title="Book a Free Estimate | Kava Construction, Morganton NC" description="Book a free estimate with Kava Construction in Morganton, NC. Pick a time online, text or call 828-334-2101. 5% off our services.">
+  <PageHead title="Book your free estimate" lead="5% off our services. Choose the way that is easiest for you." />
+  <section class="wrap section md:grid md:grid-cols-[1fr_1fr] md:gap-14">
+    <div class="space-y-2.5 md:max-w-md">
+      <a href="/book" data-wizard="" data-source="book" class="btn btn-primary !min-h-[60px] !text-[clamp(1rem,5vw,1.15rem)] !px-3 whitespace-nowrap">Tell Us About Your Project</a>
+      <a href={site.calendly} target="_blank" rel="noopener" class="btn btn-dark">Go Straight to the Calendar</a>
+      <a href={site.phoneHref} class="btn btn-outline">Call {site.phone}</a>
+      <a data-sms href={`sms:${site.smsNumber}?&body=${encodeURIComponent("Hi Kava! I'd like a free estimate.")}`} class="btn btn-outline">Text Us</a>
+    </div>
+    <div class="mt-10 md:mt-0">
+      <h2 class="text-[1.4rem] mb-3">Visit the shop</h2>
+      <address class="not-italic text-slate leading-relaxed">{site.street}<br />{site.city}, {site.state} {site.zip}<br />{site.hours}<br />Se habla español.</address>
+      <p class="mt-4 text-slate max-w-[40ch]">We serve homes within about {site.radiusMiles} miles of Morganton. <a href="/service-areas" class="underline decoration-tape decoration-2 underline-offset-4 font-semibold text-ink">Check your town</a>.</p>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,244 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Faqs from '../components/Faqs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+import { tiles } from '../data/services';
+
+const order = ['kitchen', 'bathroom', 'roofing', 'decks', 'porches', 'flooring', 'concrete', 'windows', 'walls', 'remodel'];
+const tileById = Object.fromEntries(tiles.map((t) => [t.id, t]));
+const spans: Record<string, string> = {
+  kitchen: 'col-span-2 md:row-span-2',
+  remodel: 'col-span-2',
+};
+
+const picks = [
+  { id: 'kitchen', label: 'Kitchen' },
+  { id: 'bathroom', label: 'Bathroom' },
+  { id: 'roofing', label: 'Roof' },
+  { id: 'decks', label: 'Deck' },
+  { id: 'flooring', label: 'Floors' },
+  { id: 'other', label: 'Something else' },
+];
+
+const work = [
+  { file: 'roofing-02', alt: 'Kava roofer laying shingles on new underlayment', caption: 'Roofing', cls: 'col-span-6 row-span-2 md:col-span-5 md:row-span-2' },
+  { file: 'bathroom-01', alt: 'Tub surrounded by marble-look tile with black fixtures', caption: 'Bathroom', cls: 'col-span-3 row-span-2 md:col-span-4 md:row-span-2' },
+  { file: 'porches-01', alt: 'New gabled front porch on a brick ranch home', caption: 'Front porch', cls: 'col-span-3 row-span-2 md:col-span-3 md:row-span-1' },
+  { file: 'kitchen-02', alt: 'White kitchen with gray island and pendant lights', caption: 'Kitchen', cls: 'col-span-3 row-span-2 md:col-span-3 md:row-span-1' },
+  { file: 'decks-01', alt: 'Finished deck with a porch swing', caption: 'Deck', cls: 'col-span-3 row-span-2 md:col-span-6 md:row-span-1' },
+  { file: 'flooring-01', alt: 'Gray porch tile with patterned inlays', caption: 'Porch tile', cls: 'col-span-6 row-span-1 md:col-span-6 md:row-span-1' },
+];
+
+const steps = [
+  { t: 'Tell us what you need', d: 'Tap your project and answer a couple of questions.' },
+  { t: 'Pick a time', d: 'Choose an open slot on our calendar, or text or call us.' },
+  { t: 'Get your free estimate', d: 'We look at the job and give you a price.' },
+];
+
+const reasons = [
+  { b: 'We are local.', t: `Our shop address is ${site.street} in Morganton.` },
+  { b: '10+ years of experience', t: 'in remodeling and construction.' },
+  { b: 'Licensed and insured', t: 'on every job.' },
+  { b: 'One crew for the whole job,', t: 'from demolition and framing to tile and trim.' },
+  { b: 'Se habla español.', t: 'Talk to us in English or Spanish.' },
+];
+
+const faqs = [
+  { q: 'Is the estimate really free?', a: 'Yes. Booking an estimate costs nothing.' },
+  { q: 'Are you licensed and insured?', a: 'Yes, Kava Construction is licensed and insured.' },
+  { q: '¿Hablan español?', a: 'Sí. Se habla español. Llámenos al 828-334-2101.' },
+  { q: 'How much does a remodel cost?', a: 'It depends on the size of the job, the materials and what is behind the walls. We do not quote prices online. We look at the job for free and give you a price.' },
+  { q: 'What areas do you work in?', a: `We are based on ${site.street} in Morganton and serve homes within about ${site.radiusMiles} miles, including ${site.areas.slice(0, 8).join(', ')} and more. See the service areas page or call to check your address.` },
+  { q: 'How do I get the 5% off?', a: 'Mention it when you book your estimate.' },
+  { q: 'Are you the same company as Kava Home Improvements?', a: 'Yes. Kava Home Improvements LLC is now Kava Construction LLC, with the same phone number.' },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const arrow = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>`;
+const check = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>`;
+---
+<Base
+  intro
+  title="Remodeling & Roofing in Morganton, NC | Kava Construction"
+  description={`Kitchens, baths, roofing, decks, flooring and concrete in Morganton, NC and towns within ${site.radiusMiles} miles. Licensed and insured, 10+ years. 5% off our services. Book a free estimate.`}
+  schema={[faqSchema]}
+>
+  <!-- Hero -->
+  <section class="hero relative bg-spruce-deep text-white overflow-hidden">
+    <div class="relative h-[200px] md:absolute md:inset-y-0 md:right-0 md:h-auto md:w-[58%] overflow-hidden">
+      <Photo file="kitchen-01" alt="Finished Kava kitchen with white cabinets and wood-look floor" widths={[480, 800, 1200]} sizes="(min-width: 768px) 58vw, 100vw" eager class="hero-photo w-full h-full object-cover object-[50%_62%]" />
+      <div class="hero-fade hidden md:block absolute inset-0" aria-hidden="true"></div>
+      <div class="md:hidden absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-spruce-deep to-transparent" aria-hidden="true"></div>
+    </div>
+    <div class="wrap relative md:min-h-[35rem] md:flex md:items-center">
+      <div class="py-6 md:py-16 md:max-w-[34rem] lg:max-w-[38rem]">
+        <h1 class="rise" style="--i:0">Remodeling, roofing and decks in <span class="text-tape-soft">Morganton, NC</span></h1>
+        <p class="rise mt-4 text-white/85 max-w-[32rem] text-[1.075rem]" style="--i:1">Licensed and insured crew, 10+ years. Tell us what you need in under a minute, then pick a time for your free estimate.</p>
+        <div class="rise mt-6 flex flex-col md:flex-row gap-2.5" style="--i:2">
+          <a href="/book" data-wizard="" data-source="hero" class="btn btn-primary btn-md-auto md:!px-8">
+            Get My Free Estimate
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href={site.phoneHref} class="btn btn-outline-light btn-md-auto md:!px-6 !hidden md:!flex">Call {site.phone}</a>
+        </div>
+        <div class="rise mt-5" style="--i:3">
+          <p class="text-sm font-semibold text-white/75 mb-2">Or start with your project:</p>
+          <div class="flex flex-wrap gap-2">
+            {picks.map((p) => <a href="/book" data-wizard={p.id} data-source="hero-chip" class="chip-pick">{p.label}</a>)}
+          </div>
+        </div>
+        <ul class="rise mt-6 flex flex-wrap gap-x-5 gap-y-1.5 font-semibold text-[0.95rem] text-white/90" style="--i:4">
+          {['Licensed and insured', '10+ years', 'Se habla español'].map((t) => (
+            <li class="flex items-center gap-1.5"><span class="text-tape-soft" set:html={check} />{t}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div class="ruler" aria-hidden="true"></div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="bg-mist">
+    <div class="wrap section">
+      <div class="md:flex md:items-end md:justify-between md:gap-8 mb-6 md:mb-9 reveal">
+        <h2 class="max-w-[16ch]">What do you need done?</h2>
+        <p class="text-slate mt-2 md:mt-0 md:max-w-[24rem]">Tap your project to start your free estimate. One crew, one price, no runaround.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-3 [grid-auto-rows:10.5rem] md:[grid-auto-rows:12.5rem]">
+        {order.map((id) => {
+          const t = tileById[id];
+          return (
+            <a href={t.href} data-wizard={t.id} data-source="tile" class:list={['tile', spans[id]]}>
+              <Photo file={t.photo!.file} alt="" widths={[240, 400, 600, 900]} sizes={id === 'kitchen' ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 768px) 25vw, 50vw'} class="!aspect-auto" />
+              <span class="tile-label">{t.label}</span>
+              <span class="tile-go" set:html={arrow} />
+            </a>
+          );
+        })}
+        <a href="/book" data-wizard="other" data-source="tile" class="tile col-span-2 flex items-center justify-between gap-3 min-h-[76px] px-5 py-3 !bg-tape !text-on-tape font-display font-extrabold text-[1.05rem] hover:!bg-tape-deep transition-colors" style="font-stretch:108%">
+          <span>Fence, basement, pressure washing or something else</span>
+          <span set:html={arrow} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section class="wrap section">
+    <div class="md:flex md:items-end md:justify-between md:gap-8 mb-6 md:mb-9 reveal">
+      <h2 class="max-w-[14ch]">Our crew, on real jobs</h2>
+      <p class="text-slate mt-2 md:mt-0 md:max-w-[22rem]">Every photo here is our own work, on homes around Morganton.</p>
+    </div>
+    <div class="grid grid-cols-6 md:grid-cols-12 gap-2.5 md:gap-3 [grid-auto-rows:6.25rem] md:[grid-auto-rows:7.25rem]">
+      {work.map((p) => (
+        <figure class:list={['relative overflow-hidden rounded-md bg-spruce', p.cls]}>
+          <Photo file={p.file} alt={p.alt} widths={[400, 600, 900]} sizes="(min-width: 768px) 40vw, 50vw" class="reveal-img w-full h-full object-cover" />
+          <figcaption class="absolute left-2.5 bottom-2.5 bg-spruce-deep/90 text-white text-[0.85rem] font-bold px-2.5 py-1 rounded">{p.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+    <a href="/gallery" class="btn btn-outline mt-7 md:max-w-xs">See All Our Work</a>
+  </section>
+
+  <!-- One staircase -->
+  <section class="bg-spruce-deep text-white">
+    <div class="wrap section">
+      <div class="md:grid md:grid-cols-[1fr_2fr] md:gap-12 md:items-center">
+        <div class="reveal">
+          <h2>One staircase, start to finish</h2>
+          <p class="mt-3 text-white/80 max-w-[30ch]">A worn hillside path, rebuilt by our crew as a flight of poured concrete steps.</p>
+          <a href="/services/concrete" data-wizard="concrete" data-source="stairs" class="btn btn-primary mt-6 md:max-w-[17rem]">Get a Concrete Estimate</a>
+        </div>
+        <ol class="mt-8 md:mt-0 grid grid-cols-3 gap-2.5 md:gap-4">
+          {[
+            { f: 'concrete-03', a: 'Crew member clearing the old hillside path', l: 'Clearing' },
+            { f: 'concrete-02', a: 'Wood forms set on the hillside for concrete steps', l: 'Forms' },
+            { f: 'concrete-01', a: 'Finished concrete steps on the hillside', l: 'Finished' },
+          ].map((s, i) => (
+            <li>
+              <div class="overflow-hidden rounded-md"><Photo file={s.f} alt={s.a} sizes="(min-width: 768px) 22vw, 33vw" class="reveal-img w-full aspect-[3/4] object-cover" /></div>
+              <div class="mt-2 border-t-2 border-tape pt-1.5 font-display font-extrabold flex items-baseline gap-2" style="font-stretch:108%">
+                <span class="text-tape-soft">{i + 1}</span><span>{s.l}</span>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section id="how" class="bg-paper">
+    <div class="wrap section">
+      <h2 class="mb-8 md:mb-12 reveal max-w-[18ch]">How do I get a free estimate?</h2>
+      <ol class="grid gap-7 md:grid-cols-3 md:gap-8">
+        {steps.map((s, i) => (
+          <li class="reveal border-t-4 border-spruce pt-4 relative">
+            <span class="absolute -top-[4px] left-0 h-[4px] w-14 bg-tape" aria-hidden="true"></span>
+            <span class="block font-display font-black text-blaze leading-none text-[3.4rem]" style="font-stretch:125%">{i + 1}</span>
+            <h3 class="mt-2">{s.t}</h3>
+            <p class="text-slate mt-1.5 max-w-[30ch]">{s.d}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-9 flex flex-col md:flex-row gap-2.5">
+        <a href="/book" data-wizard="" data-source="how" class="btn btn-primary btn-md-auto md:!px-8">Get My Free Estimate</a>
+        <a href={site.calendly} target="_blank" rel="noopener" class="btn btn-outline btn-md-auto md:!px-8">Go Straight to the Calendar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why -->
+  <section class="bg-mist">
+    <div class="wrap section md:grid md:grid-cols-[5fr_6fr] md:gap-14 md:items-center">
+      <div class="relative mb-8 md:mb-0 max-w-[26rem] md:max-w-none">
+        <Photo file="porches-11" alt="Two Kava crew members cutting lumber at a framing job" widths={[480, 800]} sizes="(min-width: 768px) 40vw, 90vw" class="reveal-img relative z-10 w-full aspect-[4/5] object-cover rounded-md" />
+        <div class="absolute inset-0 translate-x-3 translate-y-3 md:translate-x-4 md:translate-y-4 bg-tape rounded-md" aria-hidden="true"></div>
+      </div>
+      <div class="reveal">
+        <h2 class="mb-6">Why choose Kava Construction?</h2>
+        <ul class="max-w-xl">
+          {reasons.map((r) => (
+            <li class="flex gap-3 py-3.5 border-t border-ink/15 last:border-b">
+              <span class="mt-0.5 grid place-items-center shrink-0 w-6 h-6 rounded-full bg-spruce text-tape-soft" set:html={check.replace('width="18" height="18"', 'width="14" height="14"')} />
+              <span><strong>{r.b}</strong> {r.t}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service area -->
+  <section class="bg-spruce text-white" id="areas">
+    <div class="wrap section md:grid md:grid-cols-[1fr_1.4fr] md:gap-14">
+      <div class="reveal">
+        <h2>Serving homes within {site.radiusMiles} miles of Morganton</h2>
+        <p class="mt-3 text-white/85 max-w-[34ch]">Our shop is at {site.street}. If you are in or near one of these towns, we come to you for the estimate.</p>
+        <a href="/service-areas" class="inline-block mt-4 font-bold underline decoration-tape decoration-2 underline-offset-4 hover:text-tape-soft">Check your town</a>
+      </div>
+      <ul class="mt-7 md:mt-0 flex flex-wrap gap-2 content-start reveal">
+        {site.areas.map((a, i) => (
+          <li class:list={['rounded-full border px-3.5 py-1.5 text-[0.95rem] font-semibold', i === 0 ? 'bg-tape text-on-tape border-tape' : 'border-white/30']}>{a}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-paper">
+    <div class="wrap section md:grid md:grid-cols-[1fr_1.7fr] md:gap-14">
+      <h2 class="mb-4 md:mb-0 reveal">Common questions</h2>
+      <Faqs faqs={faqs} />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

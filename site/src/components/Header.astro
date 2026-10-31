@@ -1,0 +1,43 @@
+---
+import { site } from '../data/site';
+import { services } from '../data/services';
+const links = [
+  { href: '/services', label: 'Services' },
+  { href: '/gallery', label: 'Our Work' },
+  { href: '/service-areas', label: 'Service Areas' },
+  { href: '/about', label: 'About' },
+  { href: '/book', label: 'Book an Estimate' },
+];
+---
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">Skip to content</a>
+<aside aria-label="Current offer">
+  <a href="/book" data-wizard="" data-source="strip" class="block bg-tape text-on-tape text-center text-[0.9rem] font-extrabold tracking-[0.01em] py-1.5 px-3 no-underline hover:bg-tape-deep transition-colors">
+    5% off our services <span aria-hidden="true" class="mx-1.5 opacity-50">|</span> Free estimates <span aria-hidden="true" class="ml-1">→</span>
+  </a>
+</aside>
+<header class="sticky top-0 z-40 bg-spruce-deep text-white border-b border-white/10">
+  <div class="wrap flex items-center gap-2.5 h-[68px]">
+    <a href="/" class="flex items-center gap-2.5 no-underline mr-auto min-w-0" aria-label="Kava Construction home">
+      <img src="/logo.webp" alt="" width="66" height="54" class="h-[54px] w-auto shrink-0" />
+      <span class="font-display font-extrabold text-[1.05rem] leading-tight max-[359px]:hidden" style="font-stretch:112%">Kava <span class="text-tape-soft">Construction</span></span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 mr-3 font-semibold text-[0.975rem]" aria-label="Main">
+      {links.slice(0, 4).map((l) => <a href={l.href} class="no-underline py-1 border-b-2 border-transparent hover:border-tape transition-colors">{l.label}</a>)}
+    </nav>
+    <a href={site.phoneHref} class="hidden md:block font-display font-extrabold text-lg no-underline hover:text-tape-soft transition-colors" style="font-stretch:108%">{site.phone}</a>
+    <a href="/book" data-wizard="" data-source="header" class="btn btn-primary !hidden md:!flex !w-auto !min-h-[44px] !text-base">Free Estimate</a>
+    <a href={site.phoneHref} aria-label={`Call ${site.phone}`} class="md:hidden grid place-items-center w-12 h-12 rounded-md bg-tape text-on-tape">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+    </a>
+    <details class="md:hidden group">
+      <summary class="list-none grid place-items-center w-12 h-12 rounded-md border-2 border-white/35 cursor-pointer [&::-webkit-details-marker]:hidden" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </summary>
+      <nav class="absolute left-0 right-0 top-full bg-spruce-deep border-t border-white/15 px-4 pb-4 max-h-[75dvh] overflow-y-auto" aria-label="Mobile">
+        {links.map((l) => <a href={l.href} class="block py-3 font-bold no-underline border-b border-white/10">{l.label}</a>)}
+        <p class="pt-4 pb-1 text-white/75 text-sm font-semibold">Services</p>
+        {services.map((s) => <a href={`/services/${s.id}`} class="block py-2.5 no-underline">{s.name}</a>)}
+      </nav>
+    </details>
+  </div>
+</header>

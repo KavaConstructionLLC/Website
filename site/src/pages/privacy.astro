@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+---
+<Base breadcrumbs={[{ name: 'Privacy', path: '/privacy' }]} title="Privacy | Kava Construction" description="How Kava Construction LLC uses the information you send us.">
+  <PageHead title="Privacy" />
+  <section class="wrap section max-w-3xl space-y-4">
+    <p>When you book on our calendar, text us or call us, we receive the details you share, such as your name, phone number, email, ZIP code and project information. We use them to contact you about your project and we do not sell them. The estimate form on this site does not send anything by itself. Your answers only reach us if you send the text it prepares.</p>
+    <p>Booking goes through Calendly, which has its own privacy policy. We use privacy-friendly analytics to count visits and button taps. It does not identify you personally.</p>
+    <p>If you give us your phone number or text us, we may call or text you about your project. We do not send marketing texts without your consent, and you can tell us to stop at any time. Photos on this site show our own jobs.</p>
+    <p>Questions? Email <a href={`mailto:${site.email}`} class="underline decoration-tape decoration-2 underline-offset-4 font-semibold">{site.email}</a> or call {site.phone}.</p>
+  </section>
+</Base>

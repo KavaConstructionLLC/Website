@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+---
+<Base breadcrumbs={[{ name: 'Service Areas', path: '/service-areas' }]} title="Service Areas | Kava Construction, Morganton NC" description={`Kava Construction is based in Morganton, NC and serves homes within ${site.radiusMiles} miles, including Valdese, Lenoir, Hickory, Marion, Drexel, Glen Alpine and nearby towns.`}>
+  <section class="wrap section">
+    <h1>Where we work</h1>
+    <p class="text-slate mt-3 mb-7 max-w-2xl">We are based at {site.street} in Morganton, NC, and serve homes within about {site.radiusMiles} miles. Not on the list? Call <a href={site.phoneHref} class="underline font-semibold">{site.phone}</a> and we will tell you if we can get to you.</p>
+    <ul class="flex flex-wrap gap-2 max-w-3xl">
+      {site.areas.map((a, i) => (
+        <li class:list={['rounded-full border-2 px-4 py-1.5 font-semibold', i === 0 ? 'bg-tape border-tape text-on-tape' : 'border-spruce/25']}>{a}, NC</li>
+      ))}
+    </ul>
+    <h2 class="mt-14 mb-4">What can we do at your home?</h2>
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 max-w-3xl">
+      {services.map((s) => <li><a href={`/services/${s.id}`} class="underline decoration-tape decoration-2 underline-offset-4 font-semibold hover:text-spruce">{s.name} in Morganton and nearby towns</a></li>)}
+    </ul>
+  </section>
+  <CtaBand />
+</Base>

@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+<Base title="Page Not Found | Kava Construction" description="This page could not be found." noindex>
+  <PageHead title="That page isn't here" lead="Head to the home page, or start your free estimate." />
+  <section class="wrap section">
+    <div class="flex flex-col md:flex-row gap-2.5">
+      <a href="/book" data-wizard="" data-source="404" class="btn btn-primary btn-md-auto md:!px-8">Get My Free Estimate</a>
+      <a href="/" class="btn btn-outline btn-md-auto md:!px-8">Go to the Home Page</a>
+    </div>
+  </section>
+</Base>

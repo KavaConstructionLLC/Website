@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Photo from '../../components/Photo.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services } from '../../data/services';
+---
+<Base breadcrumbs={[{ name: 'Services', path: '/services' }]} title="Services in Morganton, NC | Kava Construction" description="Kitchen and bath remodeling, roofing, decks, porches, flooring, concrete, windows and drywall in Morganton, NC. Book a free estimate.">
+  <PageHead title="Our services" lead="We work inside and outside the home in Morganton, NC. Choose a service to see our photos and what is included." />
+  <section class="wrap section">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-3">
+      {services.map((s) => (
+        <a href={`/services/${s.id}`} class="tile">
+          <Photo file={s.photos[0].file} alt="" widths={[240, 400, 600]} sizes="(min-width: 768px) 33vw, 50vw" />
+          <span class="tile-label">{s.name}</span>
+          <span class="tile-go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a>
+      ))}
+    </div>
+    <p class="mt-8 text-slate max-w-2xl">We also handle fences, basements, cabinets, pressure washing and demolition. Tell us about it in your <a href="/book" data-wizard="other" data-source="services-other" class="underline decoration-tape decoration-2 underline-offset-4 font-semibold text-ink">estimate request</a>.</p>
+  </section>
+  <CtaBand />
+</Base>
