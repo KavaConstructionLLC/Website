@@ -10,13 +10,13 @@
 
 ## Services
 
-- [Kitchen Remodeling](https://kavaconstructionllc.com/services/kitchen)
-- [Bathroom Remodeling](https://kavaconstructionllc.com/services/bathroom)
-- [Flooring Installation](https://kavaconstructionllc.com/services/flooring)
-- [Roofing Services](https://kavaconstructionllc.com/services/roofing)
-- [Decks](https://kavaconstructionllc.com/services/decks)
-- [Porches, Additions & Sheds](https://kavaconstructionllc.com/services/porches)
-- [Concrete & Steps](https://kavaconstructionllc.com/services/concrete)
-- [Window Installation](https://kavaconstructionllc.com/services/windows)
-- [Walls & Drywall](https://kavaconstructionllc.com/services/walls)
-- [Whole-Home Remodeling](https://kavaconstructionllc.com/services/remodel)
+- [Kitchen Remodeling](https://www.kavaconstructionllc.com/services/kitchen)
+- [Bathroom Remodeling](https://www.kavaconstructionllc.com/services/bathroom)
+- [Flooring Installation](https://www.kavaconstructionllc.com/services/flooring)
+- [Roofing Services](https://www.kavaconstructionllc.com/services/roofing)
+- [Decks](https://www.kavaconstructionllc.com/services/decks)
+- [Porches, Additions & Sheds](https://www.kavaconstructionllc.com/services/porches)
+- [Concrete & Steps](https://www.kavaconstructionllc.com/services/concrete)
+- [Window Installation](https://www.kavaconstructionllc.com/services/windows)
+- [Walls & Drywall](https://www.kavaconstructionllc.com/services/walls)
+- [Whole-Home Remodeling](https://www.kavaconstructionllc.com/services/remodel)

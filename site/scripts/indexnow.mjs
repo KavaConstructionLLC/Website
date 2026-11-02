@@ -1,6 +1,6 @@
 // Tells Bing and other IndexNow engines about every page. Run after each production deploy.
-const host = 'kavaconstructionllc.com';
-const key = '46d364f053b2a1f78d8982f0141f8a61';
+const host = 'www.kavaconstructionllc.com';
+const key = '4b0bd7ae5dba49c394ac85d43af50a8a';
 const index = await (await fetch(`https://${host}/sitemap-0.xml`)).text();
 const urlList = [...index.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
 const response = await fetch('https://api.indexnow.org/indexnow', {

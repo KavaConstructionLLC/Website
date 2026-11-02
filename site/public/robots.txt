@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kavaconstructionllc.com/sitemap-index.xml
+Sitemap: https://www.kavaconstructionllc.com/sitemap-index.xml

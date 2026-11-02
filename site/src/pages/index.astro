@@ -67,7 +67,7 @@ const check = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" strok
 <Base
   intro
   title="Remodeling & Roofing in Morganton, NC | Kava Construction"
-  description={`Kitchens, baths, roofing, decks, flooring and concrete in Morganton, NC and towns within ${site.radiusMiles} miles. Licensed and insured, 10+ years. 5% off our services. Book a free estimate.`}
+  description={`Kitchens, baths, roofing, decks, flooring and concrete in Morganton, NC and ${site.radiusMiles} miles around. Licensed, insured, 10+ years. Book a free estimate.`}
   schema={[faqSchema]}
 >
   <!-- Hero -->
@@ -116,7 +116,7 @@ const check = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" strok
           const t = tileById[id];
           return (
             <a href={t.href} data-wizard={t.id} data-source="tile" class:list={['tile', spans[id]]}>
-              <Photo file={t.photo!.file} alt="" widths={[240, 400, 600, 900]} sizes={id === 'kitchen' ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 768px) 25vw, 50vw'} class="!aspect-auto" />
+              <Photo file={t.photo!.file} alt={t.photo!.alt} widths={[240, 400, 600, 900]} sizes={id === 'kitchen' ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 768px) 25vw, 50vw'} class="!aspect-auto" />
               <span class="tile-label">{t.label}</span>
               <span class="tile-go" set:html={arrow} />
             </a>

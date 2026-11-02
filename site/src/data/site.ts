@@ -12,7 +12,7 @@ export const site = {
   zip: '28655',
   hours: 'Monday to Saturday, 8 AM to 5 PM',
   calendly: 'https://calendly.com/kavaconstruction-llc/estimate',
-  url: 'https://kavaconstructionllc.com',
+  url: 'https://www.kavaconstructionllc.com',
   lastUpdated: '2026-10-30',
   description: 'Licensed and insured home contractor in Morganton, NC. Kitchens, bathrooms, roofing, decks, porches, flooring, concrete, windows and drywall.',
   social: {

@@ -11,7 +11,7 @@ import { services } from '../../data/services';
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-3">
       {services.map((s) => (
         <a href={`/services/${s.id}`} class="tile">
-          <Photo file={s.photos[0].file} alt="" widths={[240, 400, 600]} sizes="(min-width: 768px) 33vw, 50vw" />
+          <Photo file={s.photos[0].file} alt={s.photos[0].alt} widths={[240, 400, 600]} sizes="(min-width: 768px) 33vw, 50vw" />
           <span class="tile-label">{s.name}</span>
           <span class="tile-go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
         </a>
