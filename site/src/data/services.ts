@@ -146,6 +146,8 @@ const baseServices: Omit<Service, keyof ServiceContent>[] = [
       estimateFaq,
       { q: 'Can you rebuild my old deck?', a: 'Yes. Choose Replace old deck on the request and tell us about the size.' },
       { q: 'Can you add stairs or railing to a deck I already have?', a: 'Yes. We do stairs and railing work on its own.' },
+      { q: 'Can you build a deck on a sloped yard?', a: 'Yes. On a sloped lot we build a raised deck on posts, with the bracing and stairs the height calls for.' },
+      { q: 'What do you build decks from?', a: 'We build with pressure-treated lumber, including the posts, framing, stairs and railings.' },
     ],
   },
   {

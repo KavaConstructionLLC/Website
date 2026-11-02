@@ -10,12 +10,19 @@ import { site } from '../data/site';
       <a href="/book" data-wizard="" data-source="book" class="btn btn-primary !min-h-[60px] !text-[clamp(1rem,5vw,1.15rem)] !px-3 whitespace-nowrap">Tell Us About Your Project</a>
       <a href={site.calendly} target="_blank" rel="noopener" class="btn btn-dark">Go Straight to the Calendar</a>
       <a href={site.phoneHref} class="btn btn-outline">Call {site.phone}</a>
-      <a data-sms href={`sms:${site.smsNumber}?&body=${encodeURIComponent("Hi Kava! I'd like a free estimate.")}`} class="btn btn-outline">Text Us</a>
+      <a data-sms href={`sms:${site.smsNumber}?&body=${encodeURIComponent("Hi Kava! I'd like a free estimate.")}`} class="btn btn-outline [@media(hover:hover)]:!hidden">Text Us</a>
     </div>
     <div class="mt-10 md:mt-0">
       <h2 class="text-[1.4rem] mb-3">Visit the shop</h2>
       <address class="not-italic text-slate leading-relaxed">{site.street}<br />{site.city}, {site.state} {site.zip}<br />{site.hours}<br />Se habla español.</address>
       <p class="mt-4 text-slate max-w-[40ch]">We serve homes within about {site.radiusMiles} miles of Morganton. <a href="/service-areas" class="underline decoration-tape decoration-2 underline-offset-4 font-semibold text-ink">Check your town</a>.</p>
+    </div>
+  </section>
+  <section id="calendar-section" class="bg-mist">
+    <div class="wrap section">
+      <h2 class="mb-2">Pick a time for your free estimate</h2>
+      <p class="text-slate mb-5 max-w-[56ch]">Choose an open slot. We come to you, look at the job and give you a price.</p>
+      <iframe title="Kava Construction booking calendar" loading="lazy" src={`${site.calendly}?embed_domain=${new URL(site.url).host}&embed_type=Inline&hide_gdpr_banner=1`} class="w-full h-[760px] rounded-md bg-white"></iframe>
     </div>
   </section>
 </Base>

@@ -74,7 +74,7 @@ const crumbs = [
             Get My Free Estimate
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
-          <a href={site.phoneHref} class="btn btn-outline-light btn-md-auto md:!px-6 !hidden md:!flex">Call {site.phone}</a>
+          <a href={site.phoneHref} class="btn btn-outline-light btn-md-auto md:!px-6">Call {site.phone}</a>
         </div>
         <ul class="rise mt-5 flex flex-wrap gap-x-5 gap-y-1.5 font-semibold text-[0.95rem] text-white/90" style="--i:3">
           {['Licensed and insured', '10+ years', 'Se habla español'].map((t) => (
@@ -169,7 +169,7 @@ const crumbs = [
             {service.related.map((id) => <li><a href={`/services/${id}`} class="inline-block rounded-full border-2 border-spruce/25 px-3.5 py-1.5 text-[0.95rem] font-semibold no-underline">{serviceById[id].name}</a></li>)}
           </ul>
         </div>
-        <p class="mt-8 text-sm text-slate">Last updated <time datetime={site.lastUpdated}>October 30, 2026</time> by Kava Construction LLC. Serving Morganton and towns within {site.radiusMiles} miles.</p>
+        <p class="mt-8 text-sm text-slate">Last updated <time datetime={site.lastUpdated}>{new Date(`${site.lastUpdated}T12:00:00`).toLocaleDateString('en-US', { dateStyle: 'long' })}</time> by Kava Construction LLC. Serving Morganton and towns within {site.radiusMiles} miles.</p>
       </div>
     </div>
   </section>

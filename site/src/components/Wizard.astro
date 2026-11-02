@@ -45,7 +45,7 @@ import { site } from '../data/site';
 
       <section data-step="3" hidden class="pb-2">
         <p class="font-bold text-lg">Last step: book your estimate</p>
-        <p class="text-slate text-[0.95rem] mb-3">Your request reaches us when you pick a time below or contact us.</p>
+        <p class="text-slate text-[0.95rem] mb-3">Send your request by text, pick a time, or call us.</p>
         <div class="grid grid-cols-[1.4fr_1fr] gap-2.5 mb-4">
           <label class="field">First name
             <input name="name" autocomplete="given-name" enterkeyhint="next" />
@@ -54,9 +54,9 @@ import { site } from '../data/site';
             <input name="zip" inputmode="numeric" autocomplete="postal-code" maxlength="5" enterkeyhint="done" />
           </label>
         </div>
-        <div class="space-y-2.5">
+        <div class="flex flex-col gap-2.5">
           <a data-calendly href={site.calendly} target="_blank" rel="noopener" class="btn btn-primary">Pick my estimate time</a>
-          <a data-sms href={`sms:${site.smsNumber}`} class="btn btn-dark">Text my request to Kava</a>
+          <a data-sms href={`sms:${site.smsNumber}`} class="btn btn-dark [@media(hover:none)]:order-first [@media(hover:hover)]:!hidden">Text my request to Kava</a>
           <a href={site.phoneHref} class="btn btn-outline">Call {site.phone}</a>
         </div>
       </section>

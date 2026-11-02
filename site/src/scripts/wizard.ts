@@ -1,5 +1,6 @@
 import { wizardServices } from '../data/wizard';
 import { site } from '../data/site';
+import { metaLead, metaStep, metaView } from './meta';
 
 declare global {
   interface Window {
@@ -14,7 +15,20 @@ export function track(name: string, data: Record<string, string | number> = {}) 
 }
 
 const dialog = document.querySelector<HTMLDialogElement>('#wizard');
+const calendar = document.querySelector<HTMLDialogElement>('#calendar');
 const lastStep = 3;
+const pageService = document.body.dataset.service ?? '';
+const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+
+function adParams() {
+  try {
+    const current = new URLSearchParams(location.search);
+    if (utmKeys.some((k) => current.has(k))) sessionStorage.setItem('kv-utm', current.toString());
+    return new URLSearchParams(sessionStorage.getItem('kv-utm') ?? '');
+  } catch {
+    return new URLSearchParams();
+  }
+}
 
 const state = {
   step: 1,
@@ -53,11 +67,33 @@ function message() {
   return lines.join('\n');
 }
 
+function activeService() {
+  return [...state.services].join('+') || pageService;
+}
+
 function calendlyUrl() {
   const { name } = values();
   const url = new URL(site.calendly);
   if (name) url.searchParams.set('name', name);
+  // Fills the first booking question so the wizard answers reach Kava
+  if (state.services.size) url.searchParams.set('a1', message());
+  const ads = adParams();
+  utmKeys.forEach((k) => {
+    if (ads.has(k)) url.searchParams.set(k, ads.get(k)!);
+  });
   return url.toString();
+}
+
+function openCalendar(href: string) {
+  if (!calendar) return;
+  const url = new URL(href);
+  url.searchParams.set('embed_domain', location.host);
+  url.searchParams.set('embed_type', 'Inline');
+  url.searchParams.set('hide_gdpr_banner', '1');
+  calendar.querySelector<HTMLIFrameElement>('[data-cal-frame]')!.src = url.toString();
+  calendar.querySelector<HTMLAnchorElement>('[data-cal-fallback]')!.href = href;
+  if (dialog?.open) dialog.close();
+  calendar.showModal();
 }
 
 function smsUrl() {
@@ -80,7 +116,10 @@ function show(step: number) {
   dialog!.querySelector<HTMLElement>('[data-next]')!.hidden = step === lastStep;
   dialog!.querySelector<HTMLElement>('.sheet-body')!.scrollTop = 0;
   if (step === 2) renderDetails();
-  if (step === lastStep) syncLinks();
+  if (step === lastStep) {
+    syncLinks();
+    metaStep('EstimateDetailsDone', activeService());
+  }
   showPickError(false);
   track('wizard_step', { step });
 }
@@ -160,15 +199,35 @@ function openWizard(preselect: string, source: string) {
   watchViewport(true);
   dialog.showModal();
   track('wizard_open', { source, service: preselect });
+  metaStep('EstimateStarted', activeService());
   show(preselect ? 2 : 1);
 }
 
 document.addEventListener('click', (event) => {
   const target = event.target as HTMLElement;
   const anchor = target.closest<HTMLAnchorElement>('a');
-  if (anchor?.href.startsWith('tel:')) track('call_click');
-  if (anchor?.href.startsWith('sms:')) track('text_click');
-  if (anchor?.href.includes('calendly.com')) track('calendly_click');
+  if (anchor?.href.startsWith('tel:')) {
+    track('call_click');
+    metaLead('call', activeService());
+  }
+  if (anchor?.href.startsWith('sms:')) {
+    track('text_click');
+    metaLead('text', activeService());
+  }
+  if (anchor?.href.includes('calendly.com')) {
+    track('calendly_click');
+    metaStep('CalendarOpened', activeService());
+    if (!anchor.hasAttribute('data-cal-fallback')) {
+      event.preventDefault();
+      openCalendar(anchor.href);
+      return;
+    }
+  }
+
+  if (calendar?.contains(target)) {
+    if (target === calendar || target.closest('[data-cal-close]')) calendar.close();
+    return;
+  }
 
   const opener = target.closest<HTMLElement>('[data-wizard]');
   if (opener) {
@@ -223,6 +282,20 @@ dialog?.querySelector('form')?.addEventListener('submit', (event) => {
 });
 
 dialog?.addEventListener('close', () => watchViewport(false));
+
+calendar?.addEventListener('close', () => {
+  calendar.querySelector<HTMLIFrameElement>('[data-cal-frame]')!.removeAttribute('src');
+});
+
+// Calendly tells the page when a booking is finished
+window.addEventListener('message', (event) => {
+  if (event.origin !== 'https://calendly.com' || event.data?.event !== 'calendly.event_scheduled') return;
+  track('booking_complete');
+  metaLead('booking', activeService());
+});
+
+adParams();
+if (pageService) metaView(pageService);
 
 dialog?.addEventListener('focusin', () => window.setTimeout(centerField, 300));
 

@@ -354,6 +354,22 @@ html.no-intro .intro { display: none; }
 
 .chip-pick:hover { background: var(--color-tape); border-color: var(--color-tape); color: var(--color-on-tape); transform: translateY(-2px); }
 
+/* Booking calendar */
+dialog.cal {
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  width: min(100% - 1rem, 46rem);
+  height: min(92dvh, 52rem);
+  overflow: hidden;
+}
+dialog.cal[open] { display: flex; flex-direction: column; }
+dialog.cal::backdrop { background: rgb(35 40 29 / 0.65); }
+dialog.cal iframe { flex: 1; width: 100%; border: 0; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.75rem 0.5rem 1.1rem; }
+.cal-foot { padding: 0.5rem 1.1rem; font-size: 0.875rem; text-align: center; }
+
 /* Wizard bottom sheet */
 dialog.sheet {
   background: #fff;

@@ -4,7 +4,9 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import BottomBar from '../components/BottomBar.astro';
 import Wizard from '../components/Wizard.astro';
+import Calendar from '../components/Calendar.astro';
 import { site } from '../data/site';
+import { services } from '../data/services';
 
 interface Props {
   title: string;
@@ -30,6 +32,8 @@ const business = {
   alternateName: site.formerName,
   url: site.url,
   description: site.description,
+  priceRange: '$$',
+  geo: { '@type': 'GeoCoordinates', latitude: 35.7457, longitude: -81.6848 },
   hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.street}, ${site.city}, ${site.state} ${site.zip}`)}`,
   logo: `${site.url}/logo.png`,
   image: `${site.url}/og.jpg`,
@@ -58,6 +62,23 @@ const business = {
     },
   ],
   knowsLanguage: ['en', 'es'],
+  knowsAbout: services.map((s) => s.name),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `${site.shortName} services`,
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      url: `${site.url}/services/${s.id}`,
+      itemOffered: { '@type': 'Service', name: s.name },
+    })),
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+1-828-334-2101',
+    contactType: 'customer service',
+    areaServed: 'US-NC',
+    availableLanguage: ['English', 'Spanish'],
+  },
   sameAs: Object.values(site.social),
 };
 const website = {
@@ -125,10 +146,19 @@ const jsonLd = [business, website, webPage, ...crumbs, ...schema];
       <>
         <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
         <script is:inline defer src="/_vercel/insights/script.js"></script>
+        <script is:inline define:vars={{ pixelId: site.metaPixelId }}>
+          !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+          var x;try{x=localStorage.getItem('kv_ext_id');if(!x){x=crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random();localStorage.setItem('kv_ext_id',x);}}catch(e){}
+          fbq('init',pixelId,x?{external_id:x}:{});
+          fbq('track','PageView');
+        </script>
       </>
     )}
   </head>
-  <body>
+  <body data-service={service}>
+    {import.meta.env.PROD && (
+      <noscript><img height="1" width="1" style="display:none" alt="" src={`https://www.facebook.com/tr?id=${site.metaPixelId}&ev=PageView&noscript=1`} /></noscript>
+    )}
     {intro && (
       <div class="intro" aria-hidden="true">
         <div class="intro-word">{'KAVA'.split('').map((l, n) => <span style={`--n:${n}`}>{l}</span>)}</div>
@@ -153,6 +183,7 @@ const jsonLd = [business, website, webPage, ...crumbs, ...schema];
     <Footer />
     <BottomBar service={service} />
     <Wizard />
+    <Calendar />
     <script>
       import '../scripts/wizard';
     </script>

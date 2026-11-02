@@ -13,13 +13,14 @@ export const site = {
   hours: 'Monday to Saturday, 8 AM to 5 PM',
   calendly: 'https://calendly.com/kavaconstruction-llc/estimate',
   url: 'https://www.kavaconstructionllc.com',
-  lastUpdated: '2026-10-30',
+  lastUpdated: '2026-11-02',
   description: 'Licensed and insured home contractor in Morganton, NC. Kitchens, bathrooms, roofing, decks, porches, flooring, concrete, windows and drywall.',
   social: {
     facebook: 'https://www.facebook.com/people/KAVA-Home-Improvements-LLC/61560872135615/',
     tiktok: 'https://www.tiktok.com/@kavaremodeling',
     pinterest: 'https://www.pinterest.com/kavaremodelingnc/',
   },
+  metaPixelId: '2127145141522315',
   reviewUrl: 'https://g.page/r/CdMhHogo3RQPEBM/review',
   radiusMiles: 40,
   // Towns within about 40 miles of Morganton, nearest first. Confirm the list with the owner before launch.
