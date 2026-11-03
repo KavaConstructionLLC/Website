@@ -214,6 +214,10 @@ document.addEventListener('click', (event) => {
     track('text_click');
     metaLead('text', activeService());
   }
+  if (anchor?.href.startsWith('mailto:')) {
+    track('email_click');
+    metaLead('email', activeService());
+  }
   if (anchor?.href.includes('calendly.com')) {
     track('calendly_click');
     metaStep('CalendarOpened', activeService());
@@ -303,7 +307,10 @@ window.addEventListener('message', (event) => {
 });
 
 adParams();
-if (pageService) metaView(pageService);
+// Every page people choose to read, apart from privacy and 404
+const pageName = location.pathname.replace(/^\/|\/$/g, '') || 'home';
+if (pageService) metaView(pageService, 'service');
+else if (!['privacy', '404'].includes(pageName)) metaView(pageName, 'page');
 
 dialog?.addEventListener('focusin', () => window.setTimeout(centerField, 300));
 

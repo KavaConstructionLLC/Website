@@ -4,7 +4,7 @@ declare global {
   }
 }
 
-type LeadMethod = 'call' | 'text' | 'booking';
+type LeadMethod = 'call' | 'text' | 'email' | 'booking';
 
 // A repeat tap in the same visit should not count as a second lead
 function firstTime(name: string) {
@@ -23,8 +23,8 @@ export function metaLead(method: LeadMethod, service: string) {
   window.fbq?.('track', method === 'booking' ? 'Schedule' : 'Contact', data);
 }
 
-export function metaView(service: string) {
-  window.fbq?.('track', 'ViewContent', { content_name: service, content_type: 'service' });
+export function metaView(name: string, type: 'service' | 'page') {
+  window.fbq?.('track', 'ViewContent', { content_name: name, content_type: type });
 }
 
 export function metaStep(name: 'EstimateStarted' | 'EstimateDetailsDone' | 'CalendarOpened', service: string) {
