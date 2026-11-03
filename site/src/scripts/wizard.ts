@@ -232,6 +232,14 @@ document.addEventListener('click', (event) => {
   const opener = target.closest<HTMLElement>('[data-wizard]');
   if (opener) {
     event.preventDefault();
+    // Desktop visitors cannot text the answers, so they go straight to booking
+    if (calendar && matchMedia('(hover: hover)').matches) {
+      state.services = new Set();
+      track('calendly_click', { source: opener.dataset.source ?? location.pathname });
+      metaStep('CalendarOpened', activeService());
+      openCalendar(calendlyUrl());
+      return;
+    }
     openWizard(opener.dataset.wizard ?? '', opener.dataset.source ?? location.pathname);
     return;
   }
