@@ -134,6 +134,7 @@ const jsonLd = [business, website, webPage, ...crumbs, ...schema];
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://calendly.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
@@ -146,6 +147,13 @@ const jsonLd = [business, website, webPage, ...crumbs, ...schema];
       <>
         <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
         <script is:inline defer src="/_vercel/insights/script.js"></script>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.googleAdsId}`}></script>
+        <script is:inline define:vars={{ adsId: site.googleAdsId }}>
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { dataLayer.push(arguments); };
+          gtag('js', new Date());
+          gtag('config', adsId);
+        </script>
         <script is:inline define:vars={{ pixelId: site.metaPixelId }}>
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
           var x;try{x=localStorage.getItem('kv_ext_id');if(!x){x=crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random();localStorage.setItem('kv_ext_id',x);}}catch(e){}

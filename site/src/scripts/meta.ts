@@ -1,6 +1,9 @@
+import { site } from '../data/site';
+
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -21,6 +24,13 @@ export function metaLead(method: LeadMethod, service: string) {
   const data = { content_name: service || 'general', content_category: method };
   window.fbq?.('track', 'Lead', data);
   window.fbq?.('track', method === 'booking' ? 'Schedule' : 'Contact', data);
+  // Google bids on calls, texts and bookings only. Calls and texts leave the page, so the hit goes out as a beacon.
+  if (method !== 'email') window.gtag?.('event', 'conversion', {
+    send_to: site.googleLeadConversion,
+    event_category: method,
+    event_label: service || 'general',
+    transport_type: 'beacon',
+  });
 }
 
 export function metaView(name: string, type: 'service' | 'page') {

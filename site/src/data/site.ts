@@ -21,6 +21,9 @@ export const site = {
     pinterest: 'https://www.pinterest.com/kavaremodelingnc/',
   },
   metaPixelId: '2127145141522315',
+  googleAdsId: 'AW-18543295549',
+  // Google Ads "Submit lead form" conversion
+  googleLeadConversion: 'AW-18543295549/QgbpCI305K8dEL34kIpF',
   reviewUrl: 'https://g.page/r/CdMhHogo3RQPEBM/review',
   radiusMiles: 40,
   // Towns within about 40 miles of Morganton, nearest first. Confirm the list with the owner before launch.
