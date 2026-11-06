@@ -24,6 +24,8 @@ export const site = {
   googleAdsId: 'AW-18543295549',
   // Google Ads "Submit lead form" conversion
   googleLeadConversion: 'AW-18543295549/QgbpCI305K8dEL34kIpF',
+  // Google Ads "Calls from website (60s+)": swaps in a Google forwarding number for ad visitors
+  googleCallConversion: 'AW-18543295549/n2vLCKfYyrMdEL34kIpF',
   reviewUrl: 'https://g.page/r/CdMhHogo3RQPEBM/review',
   radiusMiles: 40,
   // Towns within about 40 miles of Morganton, nearest first. Confirm the list with the owner before launch.
