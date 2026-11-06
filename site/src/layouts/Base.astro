@@ -148,11 +148,32 @@ const jsonLd = [business, website, webPage, ...crumbs, ...schema];
         <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
         <script is:inline defer src="/_vercel/insights/script.js"></script>
         <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.googleAdsId}`}></script>
-        <script is:inline define:vars={{ adsId: site.googleAdsId }}>
+        <script is:inline define:vars={{ adsId: site.googleAdsId, callId: site.googleCallConversion, phone: site.phone }}>
           window.dataLayer = window.dataLayer || [];
           window.gtag = function () { dataLayer.push(arguments); };
           gtag('js', new Date());
           gtag('config', adsId);
+          // Ad visitors get a Google forwarding number so calls of 60s+ count. Google only swaps
+          // visible text, so the tel: links are swapped here too or phone taps would skip tracking.
+          gtag('config', callId, {
+            phone_conversion_number: phone,
+            phone_conversion_callback: function (formatted, mobile) {
+              var digits = String(mobile || formatted).replace(/\D/g, '');
+              if (digits.length < 10) return;
+              var swap = function () {
+                document.querySelectorAll('a[href^="tel:"]').forEach(function (a) {
+                  a.href = 'tel:+' + (digits.length === 10 ? '1' + digits : digits);
+                  if (a.getAttribute('aria-label')) a.setAttribute('aria-label', a.getAttribute('aria-label').split(phone).join(formatted));
+                });
+                var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+                for (var node; (node = walker.nextNode());) {
+                  if (node.nodeValue.indexOf(phone) > -1) node.nodeValue = node.nodeValue.split(phone).join(formatted);
+                }
+              };
+              if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', swap);
+              else swap();
+            },
+          });
         </script>
         <script is:inline define:vars={{ pixelId: site.metaPixelId }}>
           !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
