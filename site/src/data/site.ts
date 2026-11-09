@@ -13,7 +13,7 @@ export const site = {
   hours: 'Monday to Saturday, 8 AM to 5 PM',
   calendly: 'https://calendly.com/kavaconstruction-llc/estimate',
   url: 'https://www.kavaconstructionllc.com',
-  lastUpdated: '2026-11-02',
+  lastUpdated: '2026-11-09',
   description: 'Licensed and insured home contractor in Morganton, NC. Kitchens, bathrooms, roofing, decks, porches, flooring, concrete, windows and drywall.',
   social: {
     facebook: 'https://www.facebook.com/people/KAVA-Home-Improvements-LLC/61560872135615/',

@@ -4,10 +4,20 @@ import PageHead from '../components/PageHead.astro';
 import Photo from '../components/Photo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { services } from '../data/services';
+import { site } from '../data/site';
 const groups = services.filter((s) => s.id !== 'remodel');
+const photoCount = groups.reduce((n, s) => n + s.photos.length, 0);
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Kava Construction project photos',
+  url: `${site.url}/gallery`,
+  about: { '@id': `${site.url}/#business` },
+  hasPart: groups.map((s) => ({ '@type': 'WebPage', name: s.name, url: `${site.url}/services/${s.id}` })),
+};
 ---
-<Base breadcrumbs={[{ name: 'Our Work', path: '/gallery' }]} title="Our Work: Project Photos | Kava Construction, Morganton NC" description="Photos of real Kava Construction jobs: kitchens, bathrooms, roofs, decks, porches, sheds, flooring and concrete in and around Morganton, NC.">
-  <PageHead title="Our work" lead="Finished rooms and jobs in progress, all by our crew.">
+<Base breadcrumbs={[{ name: 'Our Work', path: '/gallery' }]} schema={[collection]} title="Our Work: Project Photos | Kava Construction, Morganton NC" description="Photos of real Kava Construction jobs: kitchens, bathrooms, roofs, decks, porches, sheds, flooring and concrete in and around Morganton, NC.">
+  <PageHead title="Our work" lead={`${photoCount} photos of finished rooms and jobs in progress, all by our own crew in Morganton, Valdese, Lenoir, Hickory, Marion and nearby towns. No stock photos.`}>
     <nav class="flex gap-2 overflow-x-auto mt-5 pb-1 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap" aria-label="Jump to a project type">
       {groups.map((s) => <a href={`#${s.id}`} class="chip-pick shrink-0">{s.name}</a>)}
     </nav>
@@ -19,6 +29,7 @@ const groups = services.filter((s) => s.id !== 'remodel');
           <h2>{s.name}</h2>
           <a href={`/services/${s.id}`} data-wizard={s.id} data-source="gallery" class="btn btn-primary btn-md-auto md:!px-6 !min-h-[48px] !text-base">Get a Free {s.name.split(' ')[0].replace(',', '')} Estimate</a>
         </div>
+        <p class="-mt-2 mb-5 text-slate max-w-2xl">{s.photos.length} photos of {s.name.toLowerCase()} jobs by our crew in and around Morganton, NC. <a href={`/services/${s.id}`} class="underline decoration-tape decoration-2 underline-offset-4 font-semibold text-ink">See what our {s.name.toLowerCase()} work includes</a>.</p>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-3">
           {s.photos.map((p) => (
             <div class="overflow-hidden rounded-md bg-spruce">
