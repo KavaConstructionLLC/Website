@@ -3,9 +3,47 @@ import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import Photo from '../../components/Photo.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import Faqs from '../../components/Faqs.astro';
 import { services } from '../../data/services';
+import { site } from '../../data/site';
+
+const faqs = [
+  {
+    q: 'What services does Kava Construction offer in Morganton, NC?',
+    a: `Kava Construction handles kitchen and bathroom remodeling, roofing, decks, covered porches, additions and sheds, flooring, concrete and steps, window installation, drywall and whole-home remodels. We work in Morganton and towns within about ${site.radiusMiles} miles.`,
+  },
+  {
+    q: 'Can one crew handle a project that needs several trades?',
+    a: 'Yes. A bathroom job often needs framing, plumbing, tile, drywall and flooring. Our crew does that work in one project, so you deal with one company instead of scheduling separate contractors.',
+  },
+  {
+    q: 'Do you give free estimates?',
+    a: `Yes. Pick a time on the calendar or call ${site.phone}. We look at the job and give you a price at no cost.`,
+  },
+  {
+    q: 'Are you licensed and insured?',
+    a: `Yes. ${site.name} is licensed and insured, with more than 10 years of experience. We were formerly ${site.formerName}.`,
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${site.shortName} services`,
+  itemListElement: services.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: s.name,
+    url: `${site.url}/services/${s.id}`,
+  })),
+};
 ---
-<Base breadcrumbs={[{ name: 'Services', path: '/services' }]} title="Services in Morganton, NC | Kava Construction" description="Kitchen and bath remodeling, roofing, decks, porches, flooring, concrete, windows and drywall in Morganton, NC. Book a free estimate.">
+<Base breadcrumbs={[{ name: 'Services', path: '/services' }]} schema={[itemList, faqSchema]} title="Remodeling & Roofing Services in Morganton, NC | Kava" description="Kitchen and bath remodeling, roofing, decks, porches, flooring, concrete, windows and drywall in Morganton, NC. Licensed and insured. Free estimates.">
   <PageHead title="Our services" lead="We work inside and outside the home in Morganton, NC. Choose a service to see our photos and what is included." />
   <section class="wrap section">
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-3">
@@ -18,6 +56,28 @@ import { services } from '../../data/services';
       ))}
     </div>
     <p class="mt-8 text-slate max-w-2xl">We also handle fences, basements, cabinets, pressure washing and demolition. Tell us about it in your <a href="/book" data-wizard="other" data-source="services-other" class="underline decoration-tape decoration-2 underline-offset-4 font-semibold text-ink">estimate request</a>.</p>
+  </section>
+
+  <section class="bg-mist">
+    <div class="wrap section">
+      <h2 class="max-w-[24ch]">What each service covers</h2>
+      <p class="mt-3 text-slate max-w-2xl">Every job below is done by our own crew, licensed and insured, in Morganton and towns within about {site.radiusMiles} miles, including Valdese, Lenoir, Hickory and Marion.</p>
+      <div class="mt-7 grid gap-x-10 gap-y-8 md:grid-cols-2">
+        {services.map((s) => (
+          <div>
+            <h3><a href={`/services/${s.id}`} class="underline decoration-tape decoration-2 underline-offset-4">{s.name}</a></h3>
+            <ul class="mt-2 text-slate list-disc pl-5 space-y-0.5">
+              {s.includes.slice(0, 5).map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <h2 class="mb-5">Common questions</h2>
+    <Faqs faqs={faqs} />
   </section>
   <CtaBand />
 </Base>
